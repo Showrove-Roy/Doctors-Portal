@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../../assets/doctors portal.png";
 
 const Header = () => {
   const manue = (
@@ -46,9 +47,11 @@ const Header = () => {
             {manue}
           </ul>
         </div>
-        <img src='' alt='' />
+        <Link to='/'>
+          <img src={logo} alt='' className='w-40 cursor-pointer' />
+        </Link>
       </div>
-      <div className='navbar-center hidden lg:flex'>
+      <div className='navbar-end hidden lg:flex'>
         <ul className='menu menu-horizontal p-0'>{manue}</ul>
       </div>
     </div>
