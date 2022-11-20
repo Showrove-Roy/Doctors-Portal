@@ -1,10 +1,11 @@
 import React from "react";
 
 import treatment from "../../../assets/images/treatment.png";
+import PrimaryButton from "../../../Components/PrimaryButton/PrimaryButton";
 
 const SpacielService = () => {
   return (
-    <div className='card lg:card-side bg-base-100 mx-40 mb-72 rounded-none'>
+    <div className='card lg:card-side bg-base-100 mx-40 mb-40 rounded-none'>
       <figure>
         <img
           src={treatment}
@@ -23,9 +24,7 @@ const SpacielService = () => {
           page
         </p>
         <div className='card-actions justify-start'>
-          <button className='btn btn-primary text-white font-semibold bg-gradient-to-l from-primary to-secondary'>
-            GET STARTED
-          </button>
+          <PrimaryButton>GET STARTED</PrimaryButton>
         </div>
       </div>
     </div>
