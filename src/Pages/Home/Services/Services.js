@@ -30,14 +30,14 @@ const Services = () => {
   ];
 
   return (
-    <div className='my-32 mx-8'>
+    <div className='md:my-32 my-20 md:mx-8 mx-3'>
       <div className='mb-16'>
         <p className='text-center font-bold text-secondary text-lg'>
           OUR SERVICES
         </p>
         <p className='text-center text-3xl'>Services We Provide</p>
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 gap-3'>
         {services.map((service) => (
           <ServiceCard key={service.id} service={service}></ServiceCard>
         ))}
