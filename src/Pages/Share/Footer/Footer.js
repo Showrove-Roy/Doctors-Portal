@@ -9,7 +9,7 @@ const Footer = () => {
       style={{
         background: `url(${footer})  no-repeat center center / cover`,
       }}>
-      <div className='footer p-20 '>
+      <div className='footer md:p-20  p-5'>
         <div>
           <span className='footer-title'>Services</span>
           <Link to='#' className='link link-hover'>
