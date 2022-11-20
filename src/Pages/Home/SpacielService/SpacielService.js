@@ -5,15 +5,15 @@ import PrimaryButton from "../../../Components/PrimaryButton/PrimaryButton";
 
 const SpacielService = () => {
   return (
-    <div className='card lg:card-side bg-base-100 mx-40 mb-40 rounded-none'>
+    <div className='card lg:card-side bg-base-100 md:mx-40 mx-3 mb-40 rounded-none'>
       <figure>
         <img
           src={treatment}
           alt='Exceptional Dental Care, on Your Terms'
-          className='h-[460px] rounded-md'
+          className='md:h-[460px] rounded-md'
         />
       </figure>
-      <div className='card-body w-1/2 justify-center'>
+      <div className='card-body md:w-1/2 justify-center md:pl-10 px-0 mx-auto'>
         <h2 className='card-title'>Exceptional Dental Care, on Your Terms</h2>
         <p className='flex-grow-0'>
           It is a long established fact that a reader will be distracted by the
@@ -23,7 +23,7 @@ const SpacielService = () => {
           look like readable English. Many desktop publishing packages and web
           page
         </p>
-        <div className='card-actions justify-start'>
+        <div className='card-actions justify-start mt-3'>
           <PrimaryButton>GET STARTED</PrimaryButton>
         </div>
       </div>
