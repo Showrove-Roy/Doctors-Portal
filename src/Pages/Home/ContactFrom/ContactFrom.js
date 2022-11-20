@@ -5,7 +5,7 @@ import appointmentBG from "../../../assets/images/appointment.png";
 const ContactFrom = () => {
   return (
     <div
-      className='my-24 py-16'
+      className='mt-24 py-16'
       style={{
         background: `url(${appointmentBG}) no-repeat center center / cover`,
       }}>
