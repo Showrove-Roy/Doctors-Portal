@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import chair from "../../../assets/images/chair.png";
 import bg from "../../../assets/images/bg.png";
 import { DayPicker } from "react-day-picker";
 
-const Banner = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const Banner = ({ selectedDate, setSelectedDate }) => {
   return (
     <div
       className='lg:px-20 py-5 lg:py-32'
