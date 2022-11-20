@@ -33,15 +33,15 @@ const Testimonial = () => {
     },
   ];
   return (
-    <div className='my-20 mx-10'>
-      <div className='flex justify-between items-center'>
-        <div className=''>
+    <div className='md:my-20 my-10 md:mx-10 mx-3'>
+      <div className='flex justify-between items-center mb-10'>
+        <div>
           <h2 className='text-secondary font-bold text-sm'>Appointment</h2>
-          <h2 className='card-title'>What Our Patients Says</h2>
+          <h2 className='text-3xl'>What Our Patients Says</h2>
         </div>
-        <img src={quote} alt='' className='w-48' />
+        <img src={quote} alt='' className='md:w-48 w-20' />
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mx-5'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-10 gap-5 md:mx-5 mx-0'>
         {reviews.map((review) => (
           <TestimonialCard key={review.id} review={review}></TestimonialCard>
         ))}
