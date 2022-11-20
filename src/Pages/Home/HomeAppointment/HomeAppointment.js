@@ -6,7 +6,7 @@ import PrimaryButton from "../../../Components/PrimaryButton/PrimaryButton";
 const HomeAppointment = () => {
   return (
     <div
-      className='my-60'
+      className='mt-48'
       style={{
         background: `url(${appointment}) no-repeat center center / cover`,
       }}>
