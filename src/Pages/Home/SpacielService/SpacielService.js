@@ -5,7 +5,7 @@ import PrimaryButton from "../../../Components/PrimaryButton/PrimaryButton";
 
 const SpacielService = () => {
   return (
-    <div className='card lg:card-side bg-base-100 md:mx-40 mx-3 mb-40 rounded-none'>
+    <div className='card lg:card-side bg-base-100 md:mx-40 mx-3 lg:mb-32 rounded-none'>
       <figure>
         <img
           src={treatment}
