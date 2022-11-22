@@ -7,12 +7,16 @@ const SignIn = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
+  };
   return (
-    <div className='my-10 mx-2'>
+    <div className='md:my-6 my-3 mx-2'>
       <div className='card w-full max-w-md mx-auto shadow-md rounded-xl'>
-        <form onSubmit={handleSubmit(onSubmit)} className='card-body'>
+        <form onSubmit={handleSubmit(onSubmit)} className='card-body pt-1'>
           <h3 className='text-xl text-center'>Login Now!</h3>
           <div className='form-control'>
             <label className='label'>
@@ -71,9 +75,9 @@ const SignIn = () => {
           </div>
 
           <div className='divider'>OR</div>
-          <button className='btn btn-outline btn-accent'>
+          <span className='btn btn-outline btn-accent'>
             CONTINUE WITH GOOGLE
-          </button>
+          </span>
         </form>
       </div>
     </div>
