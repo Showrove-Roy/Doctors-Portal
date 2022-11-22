@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignUP = () => {
+  // error message storage
+  const [signUPError, setSignUPError] = useState("");
+
   //get Authentication function
-  const { createNewUser } = useAuth();
+  const { createNewUser, updateUserProfile, notify } = useAuth();
 
   // get From-hook function
   const {
@@ -17,19 +20,36 @@ const SignUP = () => {
 
   // SignUP From submit or Create user handel
   const onSubmit = (data) => {
+    setSignUPError("");
     createNewUser(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        reset();
+      .then(() => {
+        const userDetails = { displayName: data.name };
+        updateUserProfile(userDetails)
+          .then(() => {
+            notify();
+            reset();
+          })
+          .catch((error) => {
+            const errorMessage = error?.message?.split("/")[1];
+            setSignUPError(errorMessage?.split(")")[0]);
+          });
       })
-      .catch((err) => console.error(err));
+      .catch((error) => {
+        const errorMessage = error?.message?.split("/")[1];
+        setSignUPError(errorMessage?.split(")")[0]);
+      });
   };
   return (
     <div className='md:my-5 my-3 mx-2'>
       <div className='card w-full max-w-md mx-auto shadow-md rounded-xl'>
         <form className='card-body pt-1' onSubmit={handleSubmit(onSubmit)}>
           <h3 className='text-xl text-center'>Register Now!</h3>
+
+          {signUPError && (
+            <p className='text-error mt-1 capitalize text-center font-semibold'>
+              {signUPError}
+            </p>
+          )}
           <div className='form-control'>
             <label className='label'>
               <span className='label-text'>Name</span>

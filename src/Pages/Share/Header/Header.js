@@ -1,8 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/doctors portal.png";
+import { useAuth } from "../../../Contexts/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useAuth();
+
+  // LogOut
+  const handelLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => alert(err.message));
+  };
+
   const manue = (
     <>
       <li className='font-semibold'>
@@ -18,7 +28,11 @@ const Header = () => {
         <Link to='/contact'>Contact Us</Link>
       </li>
       <li className='font-semibold'>
-        <Link to='/login'>Login</Link>
+        {user?.uid ? (
+          <button onClick={handelLogOut}>Logout</button>
+        ) : (
+          <Link to='/login'>Login</Link>
+        )}
       </li>
     </>
   );

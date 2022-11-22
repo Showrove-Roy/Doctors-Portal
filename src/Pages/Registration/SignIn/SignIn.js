@@ -22,9 +22,7 @@ const SignIn = () => {
   const onSubmit = (data) => {
     setLoginError("");
     logIN(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
+      .then(() => {
         reset();
       })
       .catch((error) => {
