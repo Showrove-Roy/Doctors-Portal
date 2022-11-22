@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const onSubmit = (data) => console.log(data);
   return (
     <div className='my-10 mx-2'>
@@ -17,9 +21,13 @@ const SignIn = () => {
             <input
               type='email'
               className='input input-bordered'
-              {...register("email")}
-              required
+              {...register("email", { required: "Email Address is required" })}
             />
+            {errors.email && (
+              <p className='text-error mt-1' role='alert'>
+                {errors.email?.message}
+              </p>
+            )}
           </div>
           <div className='form-control'>
             <label className='label'>
@@ -28,9 +36,19 @@ const SignIn = () => {
             <input
               type='password'
               className='input input-bordered'
-              {...register("password")}
-              required
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password Length Must be 6 Characters",
+                },
+              })}
             />
+            {errors.password && (
+              <p className='text-error mt-1' role='alert'>
+                {errors.password?.message}
+              </p>
+            )}
             <label className='label'>
               <Link className='label-text-alt link link-hover'>
                 Forgot password?
