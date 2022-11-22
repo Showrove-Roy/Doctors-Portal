@@ -1,7 +1,11 @@
 import { format } from "date-fns";
 import React from "react";
+import { useAuth } from "../../../Contexts/AuthProvider";
 
 const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
+  // get user from context api
+  const { user } = useAuth();
+
   const date = format(selectedDate, "PP");
 
   const handelSubmit = (event) => {
@@ -56,6 +60,16 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
               name='full_name'
               type='text'
               placeholder='Full Name'
+              defaultValue={user?.displayName}
+              disabled={user?.displayName}
+              className='input input-bordered w-full my-2'
+            />
+            <input
+              name='email'
+              type='text'
+              placeholder='Email'
+              defaultValue={user?.email}
+              disabled={user?.email}
               className='input input-bordered w-full my-2'
             />
             <input
@@ -64,12 +78,7 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
               placeholder='Phone Number'
               className='input input-bordered w-full my-2'
             />
-            <input
-              name='email'
-              type='text'
-              placeholder='Email'
-              className='input input-bordered w-full my-2'
-            />
+
             <input type='submit' value='Submit' className='btn w-full mt-5' />
           </form>
         </div>
