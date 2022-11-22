@@ -19,44 +19,52 @@ const auth = getAuth(app); //get auth with passing app from firebase config
 export const useAuth = () => useContext(AuthContext); //use context and export for use enter website
 
 const AuthProvider = ({ children }) => {
+  // Loading state
+  const [loading, setLoading] = useState(true);
   // stored login user
   const [user, setUser] = useState();
 
   //Create a new user's using email address and password
   const createNewUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // sign in user
   const logIN = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Logout user
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
-
-  // Get current user info
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   // Update User Profile
 
   const updateUserProfile = (userDetails) => {
+    setLoading(true);
     return updateProfile(auth.currentUser, userDetails);
   };
 
   // Google login
   const googleProvider = new GoogleAuthProvider();
   const googleLogIn = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
+
+  // Get current user info
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // Tost handel
   const notify = (alertMess) =>
@@ -77,6 +85,8 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
     notify,
     googleLogIn,
+    loading,
+    setLoading,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

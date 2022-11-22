@@ -8,7 +8,8 @@ const SignUP = () => {
   const [signUPError, setSignUPError] = useState("");
 
   //get Authentication function
-  const { createNewUser, updateUserProfile, notify, googleLogIn } = useAuth();
+  const { createNewUser, updateUserProfile, notify, googleLogIn, setLoading } =
+    useAuth();
 
   // get From-hook function
   const {
@@ -37,6 +38,9 @@ const SignUP = () => {
       .catch((error) => {
         const errorMessage = error?.message?.split("/")[1];
         setSignUPError(errorMessage?.split(")")[0]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -49,6 +53,9 @@ const SignUP = () => {
       .catch((error) => {
         const errorMessage = error?.message?.split("/")[1];
         setSignUPError(errorMessage?.split(")")[0]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   return (

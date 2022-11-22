@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignIn = () => {
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
   // error message storage
   const [loginError, setLoginError] = useState("");
 
   //get Authentication function
-  const { logIN, googleLogIn } = useAuth();
+  const { logIN, googleLogIn, setLoading } = useAuth();
 
   // get From-hook function
   const {
@@ -24,20 +28,29 @@ const SignIn = () => {
     logIN(data.email, data.password)
       .then(() => {
         reset();
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         const errorMessage = error.message.split("/")[1].split(")");
         setLoginError(errorMessage[0]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   // Google login handel
   const handelGoogleLogin = () => {
     googleLogIn()
-      .then(() => {})
+      .then(() => {
+        navigate(from, { replace: true });
+      })
       .catch((error) => {
         const errorMessage = error?.message?.split("/")[1];
         setLoginError(errorMessage?.split(")")[0]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
