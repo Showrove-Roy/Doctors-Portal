@@ -27,6 +27,11 @@ const Header = () => {
       <li className='font-semibold'>
         <Link to='/contact'>Contact Us</Link>
       </li>
+      {user?.uid && (
+        <li className='font-semibold'>
+          <Link to='/dashboard'>Dashboard</Link>
+        </li>
+      )}
       <li className='font-semibold'>
         {user?.uid ? (
           <button onClick={handelLogOut}>Logout</button>

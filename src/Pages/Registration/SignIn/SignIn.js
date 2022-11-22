@@ -8,7 +8,7 @@ const SignIn = () => {
   const [loginError, setLoginError] = useState("");
 
   //get Authentication function
-  const { logIN } = useAuth();
+  const { logIN, googleLogIn } = useAuth();
 
   // get From-hook function
   const {
@@ -28,6 +28,16 @@ const SignIn = () => {
       .catch((error) => {
         const errorMessage = error.message.split("/")[1].split(")");
         setLoginError(errorMessage[0]);
+      });
+  };
+
+  // Google login handel
+  const handelGoogleLogin = () => {
+    googleLogIn()
+      .then(() => {})
+      .catch((error) => {
+        const errorMessage = error?.message?.split("/")[1];
+        setLoginError(errorMessage?.split(")")[0]);
       });
   };
 
@@ -99,7 +109,9 @@ const SignIn = () => {
           </div>
 
           <div className='divider'>OR</div>
-          <span className='btn btn-outline btn-accent'>
+          <span
+            onClick={handelGoogleLogin}
+            className='btn btn-outline btn-accent'>
             CONTINUE WITH GOOGLE
           </span>
         </form>

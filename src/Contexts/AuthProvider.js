@@ -2,8 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -50,14 +52,20 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, userDetails);
   };
 
+  // Google login
+  const googleProvider = new GoogleAuthProvider();
+  const googleLogIn = () => {
+    return signInWithPopup(auth, googleProvider);
+  };
+
   // Tost handel
-  const notify = () =>
+  const notify = (alertMess) =>
     toast.custom((t) => (
       <div
         className={`bg-gradient-to-l from-primary to-secondary px-6 py-4 shadow-md rounded-xl text-white font-semibold ${
           t.visible ? "animate-enter" : "animate-leave"
         }`}>
-        👋 Successfully Created Account!
+        {alertMess}
       </div>
     ));
   // create a object for sharing function and data from one place
@@ -68,6 +76,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     updateUserProfile,
     notify,
+    googleLogIn,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

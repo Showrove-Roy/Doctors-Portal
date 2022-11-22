@@ -8,7 +8,7 @@ const SignUP = () => {
   const [signUPError, setSignUPError] = useState("");
 
   //get Authentication function
-  const { createNewUser, updateUserProfile, notify } = useAuth();
+  const { createNewUser, updateUserProfile, notify, googleLogIn } = useAuth();
 
   // get From-hook function
   const {
@@ -26,13 +26,25 @@ const SignUP = () => {
         const userDetails = { displayName: data.name };
         updateUserProfile(userDetails)
           .then(() => {
-            notify();
+            notify("👋 Successfully Created Account!");
             reset();
           })
           .catch((error) => {
             const errorMessage = error?.message?.split("/")[1];
             setSignUPError(errorMessage?.split(")")[0]);
           });
+      })
+      .catch((error) => {
+        const errorMessage = error?.message?.split("/")[1];
+        setSignUPError(errorMessage?.split(")")[0]);
+      });
+  };
+
+  // Google login handel
+  const handelGoogleLogin = () => {
+    googleLogIn()
+      .then(() => {
+        notify("👋 Successfully Created Account!");
       })
       .catch((error) => {
         const errorMessage = error?.message?.split("/")[1];
@@ -132,7 +144,9 @@ const SignUP = () => {
           </div>
 
           <div className='divider'>OR</div>
-          <span className='btn btn-outline btn-accent'>
+          <span
+            onClick={handelGoogleLogin}
+            className='btn btn-outline btn-accent'>
             CONTINUE WITH GOOGLE
           </span>
         </form>
