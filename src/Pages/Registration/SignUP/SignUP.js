@@ -1,17 +1,28 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignUP = () => {
+  //get Authentication function
+  const { createNewUser } = useAuth();
+
+  // get From-hook function
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
+
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
+    createNewUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        reset();
+      })
+      .catch((err) => console.error(err));
   };
   return (
     <div className='md:my-5 my-3 mx-2'>
