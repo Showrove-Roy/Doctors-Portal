@@ -1,5 +1,9 @@
 import React, { createContext, useContext } from "react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import app from "../Firebase/firebase.config";
 
 const AuthContext = createContext(); // create context
@@ -13,8 +17,13 @@ const AuthProvider = ({ children }) => {
   const createNewUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
+  // sign in user
+  const logIN = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
   // create a object for sharing function and data from one place
-  const authInfo = { createNewUser };
+  const authInfo = { createNewUser, logIN };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

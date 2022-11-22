@@ -1,23 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignIn = () => {
+  // error message storage
+  const [loginError, setLoginError] = useState("");
+
+  //get Authentication function
+  const { logIN } = useAuth();
+
+  // get From-hook function
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
+
+  // Login From submit or user Login handel
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
+    setLoginError("");
+    logIN(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        reset();
+      })
+      .catch((error) => {
+        const errorMessage = error.message.split("/")[1].split(")");
+        setLoginError(errorMessage[0]);
+      });
   };
+
   return (
     <div className='md:my-6 my-3 mx-2'>
       <div className='card w-full max-w-md mx-auto shadow-md rounded-xl'>
         <form onSubmit={handleSubmit(onSubmit)} className='card-body pt-1'>
           <h3 className='text-xl text-center'>Login Now!</h3>
+          {loginError && (
+            <p className='text-error mt-1 capitalize text-center font-semibold'>
+              {loginError}
+            </p>
+          )}
+
           <div className='form-control'>
             <label className='label'>
               <span className='label-text'>Email</span>

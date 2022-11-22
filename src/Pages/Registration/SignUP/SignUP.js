@@ -15,6 +15,7 @@ const SignUP = () => {
     reset,
   } = useForm();
 
+  // SignUP From submit or Create user handel
   const onSubmit = (data) => {
     createNewUser(data.email, data.password)
       .then((result) => {
