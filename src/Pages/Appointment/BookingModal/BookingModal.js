@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import React from "react";
 import { useAuth } from "../../../Contexts/AuthProvider";
 
-const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
+const BookingModal = ({ treatement, selectedDate, setTreatment, refetch }) => {
   // get user from context api
   const { user, notify } = useAuth();
   const date = format(selectedDate, "PP");
@@ -16,11 +16,9 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
     const phone = from.phone.value;
 
     const appointment_details = {
-      booking_date: format(new Date(), "PP"),
       appointment_date: date,
       time_slot,
       treatment_name: treatement.name,
-      treatment_id: treatement._id,
       name,
       email,
       phone,
@@ -38,6 +36,10 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
         if (data?.acknowledged) {
           setTreatment(null);
           notify("✅ Booking Confirmed");
+          refetch();
+        } else {
+          setTreatment(null);
+          notify(`❌ ${data?.message} ❌`);
         }
       });
   };

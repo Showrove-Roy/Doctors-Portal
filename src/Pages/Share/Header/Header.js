@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../../assets/doctors portal.png";
 import { useAuth } from "../../../Contexts/AuthProvider";
 
-const Header = () => {
+const Header = ({ children }) => {
   const { user, logOut } = useAuth();
 
   // LogOut
@@ -43,7 +43,28 @@ const Header = () => {
   );
   return (
     <div className='navbar bg-base-200 justify-between'>
-      <div className='navbar-start'>
+      <div className=''>
+        {children && (
+          <label
+            htmlFor='dashboard_drawer'
+            className='btn btn-square btn-ghost lg:hidden'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='#000000'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'>
+              <circle cx='12' cy='12' r='1'></circle>
+              <circle cx='19' cy='12' r='1'></circle>
+              <circle cx='5' cy='12' r='1'></circle>
+            </svg>
+          </label>
+        )}
+
         <Link to='/'>
           <img src={logo} alt='' className='w-40 cursor-pointer' />
         </Link>
@@ -70,7 +91,7 @@ const Header = () => {
           {manue}
         </ul>
       </div>
-      <div className='navbar-end hidden lg:flex'>
+      <div className='hidden lg:flex'>
         <ul className='menu menu-horizontal p-0'>{manue}</ul>
       </div>
     </div>
