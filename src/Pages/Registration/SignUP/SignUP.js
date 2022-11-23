@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignUP = () => {
+  let navigate = useNavigate();
+
   // error message storage
   const [signUPError, setSignUPError] = useState("");
 
@@ -27,8 +29,9 @@ const SignUP = () => {
         const userDetails = { displayName: data.name };
         updateUserProfile(userDetails)
           .then(() => {
-            notify("👋 Successfully Created Account!");
             reset();
+            navigate("/");
+            notify("👋 Successfully Created Account!");
           })
           .catch((error) => {
             const errorMessage = error?.message?.split("/")[1];

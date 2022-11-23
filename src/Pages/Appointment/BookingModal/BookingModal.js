@@ -4,8 +4,7 @@ import { useAuth } from "../../../Contexts/AuthProvider";
 
 const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
   // get user from context api
-  const { user } = useAuth();
-
+  const { user, notify } = useAuth();
   const date = format(selectedDate, "PP");
 
   const handelSubmit = (event) => {
@@ -21,12 +20,26 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
       appointment_date: date,
       time_slot,
       treatment_name: treatement.name,
+      treatment_id: treatement._id,
       name,
       email,
       phone,
     };
-    console.log(appointment_details);
-    setTreatment(null);
+
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(appointment_details),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.acknowledged) {
+          setTreatment(null);
+          notify("✅ Booking Confirmed");
+        }
+      });
   };
   return (
     <>
@@ -77,6 +90,7 @@ const BookingModal = ({ treatement, selectedDate, setTreatment }) => {
               type='tel'
               placeholder='Phone Number'
               className='input input-bordered w-full my-2'
+              required
             />
 
             <input type='submit' value='Submit' className='btn w-full mt-5' />
