@@ -29,9 +29,7 @@ const SignUP = () => {
         const userDetails = { displayName: data.name };
         updateUserProfile(userDetails)
           .then(() => {
-            reset();
-            navigate("/");
-            notify("👋 Successfully Created Account!");
+            userInfo(data.name, data.email);
           })
           .catch((error) => {
             const errorMessage = error?.message?.split("/")[1];
@@ -45,6 +43,26 @@ const SignUP = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  // save user info on DB
+  const userInfo = (name, email) => {
+    const userinfo = { name, email };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userinfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        reset();
+        navigate("/");
+        notify("👋 Successfully Created Account!");
+      })
+      .catch((err) => console.error(err));
   };
 
   // Google login handel
