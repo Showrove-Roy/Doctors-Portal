@@ -1,14 +1,24 @@
-import React from "react";
+import { format } from "date-fns";
+import React, { useState } from "react";
 import DashboardTable from "../DashboardTable/DashboardTable";
+import DayPikerModal from "../DayPikerModal/DayPikerModal";
 
 const Dashboard = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const date = format(selectedDate, "PP");
+
   return (
     <div>
       <div className='flex justify-between mb-5'>
         <h2 className='text-lg font-semibold'>My Dashboard</h2>
-        <span className='btn btn-outline btn-sm'>23 May 2022</span>
+        <label htmlFor='dayPikerModal' className='btn btn-outline btn-sm'>
+          {date}
+        </label>
       </div>
-      <DashboardTable></DashboardTable>
+      <DashboardTable date={date}></DashboardTable>
+      <DayPikerModal
+        setSelectedDate={setSelectedDate}
+        selectedDate={selectedDate}></DayPikerModal>
     </div>
   );
 };

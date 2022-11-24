@@ -3,16 +3,15 @@ import React from "react";
 import { useAuth } from "../../../Contexts/AuthProvider";
 import Loading from "../../Share/Loading/Loading";
 
-const DashboardTable = () => {
+const DashboardTable = ({ date }) => {
   const { user } = useAuth();
   const { data: bookings = [], isLoading } = useQuery({
-    queryKey: ["bookings", user?.email],
+    queryKey: ["bookings", user?.email, date],
     queryFn: () =>
-      fetch(`http://localhost:5000/bookings?email=${user?.email}`).then((res) =>
-        res.json()
-      ),
+      fetch(
+        `http://localhost:5000/bookings?email=${user?.email}&date=${date}`
+      ).then((res) => res.json()),
   });
-
   if (isLoading) return <Loading />;
   return (
     <div>

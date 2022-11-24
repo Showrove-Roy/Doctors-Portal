@@ -2,8 +2,14 @@ import React from "react";
 import chair from "../../../assets/images/chair.png";
 import bg from "../../../assets/images/bg.png";
 import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
 
 const Banner = ({ selectedDate, setSelectedDate }) => {
+  let footer = <p>Please pick a day.</p>;
+  if (selectedDate) {
+    footer = <p>You picked {format(selectedDate, "PP")}.</p>;
+  }
+  const today = new Date();
   return (
     <div
       className='lg:px-20 py-5 lg:py-32'
@@ -17,7 +23,9 @@ const Banner = ({ selectedDate, setSelectedDate }) => {
             <DayPicker
               mode='single'
               selected={selectedDate}
-              onSelect={setSelectedDate}
+              footer={footer}
+              onDayClick={setSelectedDate}
+              disabled={{ before: today }}
             />
           </div>
         </div>
