@@ -10,7 +10,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className='flex justify-between mb-5'>
-        <h2 className='text-lg font-semibold'>My Dashboard</h2>
+        <h2 className='text-lg font-semibold'>My Appointments</h2>
         <label htmlFor='dayPikerModal' className='btn btn-outline btn-sm'>
           {date}
         </label>

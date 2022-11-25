@@ -45,6 +45,7 @@ const SignIn = () => {
     googleLogIn()
       .then((result) => {
         if (result?.user?.uid) {
+          createJWT(result.user.email);
           userInfo(result.user.displayName, result.user.email);
         }
       })
@@ -70,7 +71,6 @@ const SignIn = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
-          createJWT(email);
           navigate(from, { replace: true });
         }
       })

@@ -15,12 +15,7 @@ const DashboardTable = ({ date }) => {
             authorization: `bearer ${localStorage.getItem("jwToken")}`,
           },
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => console.error("hi", err)),
+      ).then((res) => res.json()),
   });
   if (isLoading) return <Loading />;
 
