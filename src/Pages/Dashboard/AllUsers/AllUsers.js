@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import toast from "react-hot-toast";
 import Loading from "../../Share/Loading/Loading";
 
 const AllUsers = () => {
@@ -26,6 +27,7 @@ const AllUsers = () => {
       .then((data) => {
         if (data.modifiedCount > 0) {
           refetch();
+          toast.success("Make Admin Successful");
         }
       })
       .catch((err) => console.error(err));

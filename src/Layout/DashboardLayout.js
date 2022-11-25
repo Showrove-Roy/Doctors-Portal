@@ -1,9 +1,14 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../Contexts/AuthProvider";
+import useAdmin from "../Hooks/useAdmin";
 import Header from "../Pages/Share/Header/Header";
 
 const DashboardLayout = () => {
   const sidebar = true;
+
+  const { user } = useAuth();
+  const [iSAdmin] = useAdmin(user?.email);
 
   return (
     <div>
@@ -24,9 +29,13 @@ const DashboardLayout = () => {
             <li>
               <Link to='/dashboard'>Appointment</Link>
             </li>
-            <li>
-              <Link to='/dashboard/allusers'>All Users</Link>
-            </li>
+            {iSAdmin && (
+              <>
+                <li>
+                  <Link to='/dashboard/allusers'>All Users</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
