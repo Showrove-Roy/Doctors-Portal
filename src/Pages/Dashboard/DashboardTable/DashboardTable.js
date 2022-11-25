@@ -5,14 +5,33 @@ import Loading from "../../Share/Loading/Loading";
 
 const DashboardTable = ({ date }) => {
   const { user } = useAuth();
-  const { data: bookings = [], isLoading } = useQuery({
+  const {
+    data: bookings = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["bookings", user?.email, date],
     queryFn: () =>
       fetch(
-        `http://localhost:5000/bookings?email=${user?.email}&date=${date}`
-      ).then((res) => res.json()),
+        `http://localhost:5000/bookings?email=${user?.email}&date=${date}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("jwToken")}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(() => {})
+        .catch(() => {}),
   });
   if (isLoading) return <Loading />;
+  if (error)
+    return (
+      <p className='text-error font-bold'>
+        You Are not a valid user please login/signup
+      </p>
+    );
+
   return (
     <div>
       <table className='table table-zebra w-full'>

@@ -57,9 +57,8 @@ const SignUP = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        createJWT(email);
         reset();
-        navigate("/");
         notify("👋 Successfully Created Account!");
       })
       .catch((err) => console.error(err));
@@ -79,6 +78,21 @@ const SignUP = () => {
         setLoading(false);
       });
   };
+
+  // JWT token create
+
+  const createJWT = (email) => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem("jwToken", data.accessToken);
+          navigate("/");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className='md:my-5 my-3 mx-2'>
       <div className='card w-full max-w-md mx-auto shadow-md rounded-xl'>
