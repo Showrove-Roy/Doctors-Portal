@@ -5,13 +5,18 @@ import { useAuth } from "../../../Contexts/AuthProvider";
 
 const SignUP = () => {
   let navigate = useNavigate();
-
   // error message storage
   const [signUPError, setSignUPError] = useState("");
 
   //get Authentication function
-  const { createNewUser, updateUserProfile, notify, googleLogIn, setLoading } =
-    useAuth();
+  const {
+    createNewUser,
+    updateUserProfile,
+    notify,
+    googleLogIn,
+    setLoading,
+    createJWT,
+  } = useAuth();
 
   // get From-hook function
   const {
@@ -45,6 +50,23 @@ const SignUP = () => {
       });
   };
 
+  // Google login handel
+  const handelGoogleLogin = () => {
+    googleLogIn()
+      .then((result) => {
+        if (result?.user?.uid) {
+          userInfo(result.user.displayName, result.user.email);
+        }
+      })
+      .catch((error) => {
+        const errorMessage = error?.message?.split("/")[1];
+        setSignUPError(errorMessage?.split(")")[0]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   // save user info on DB
   const userInfo = (name, email) => {
     const userinfo = { name, email };
@@ -57,36 +79,10 @@ const SignUP = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        createJWT(email);
-        reset();
-        notify("👋 Successfully Created Account!");
-      })
-      .catch((err) => console.error(err));
-  };
-
-  // Google login handel
-  const handelGoogleLogin = () => {
-    googleLogIn()
-      .then(() => {
-        notify("👋 Successfully Created Account!");
-      })
-      .catch((error) => {
-        const errorMessage = error?.message?.split("/")[1];
-        setSignUPError(errorMessage?.split(")")[0]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  // JWT token create
-
-  const createJWT = (email) => {
-    fetch(`http://localhost:5000/jwt?email=${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.accessToken) {
-          localStorage.setItem("jwToken", data.accessToken);
+        if (data.acknowledged) {
+          createJWT(email);
+          reset();
+          notify("👋 Successfully Created Account!");
           navigate("/");
         }
       })
@@ -136,7 +132,9 @@ const SignUP = () => {
             <input
               type='email'
               className='input input-bordered'
-              {...register("email", { required: "Email Address is required" })}
+              {...register("email", {
+                required: "Email Address is required",
+              })}
             />
             {errors.email && (
               <p className='text-error mt-1' role='alert'>

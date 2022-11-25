@@ -76,6 +76,18 @@ const AuthProvider = ({ children }) => {
         {alertMess}
       </div>
     ));
+
+  // JWT token create
+  const createJWT = (email) => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem("jwToken", data.accessToken);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   // create a object for sharing function and data from one place
   const authInfo = {
     createNewUser,
@@ -87,6 +99,7 @@ const AuthProvider = ({ children }) => {
     googleLogIn,
     loading,
     setLoading,
+    createJWT,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

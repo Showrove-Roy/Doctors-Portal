@@ -5,11 +5,7 @@ import Loading from "../../Share/Loading/Loading";
 
 const DashboardTable = ({ date }) => {
   const { user } = useAuth();
-  const {
-    data: bookings = [],
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: bookings = [], isLoading } = useQuery({
     queryKey: ["bookings", user?.email, date],
     queryFn: () =>
       fetch(
@@ -21,16 +17,22 @@ const DashboardTable = ({ date }) => {
         }
       )
         .then((res) => res.json())
-        .then(() => {})
-        .catch(() => {}),
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => console.error("hi", err)),
   });
   if (isLoading) return <Loading />;
-  if (error)
+
+  if (bookings.message)
     return (
       <p className='text-error font-bold'>
         You Are not a valid user please login/signup
       </p>
     );
+
+  if (bookings.length === 0)
+    return <p className='text-error font-bold'>Please Book An Appointment</p>;
 
   return (
     <div>

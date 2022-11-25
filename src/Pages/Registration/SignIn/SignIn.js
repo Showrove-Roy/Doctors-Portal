@@ -12,7 +12,7 @@ const SignIn = () => {
   const [loginError, setLoginError] = useState("");
 
   //get Authentication function
-  const { logIN, googleLogIn, setLoading } = useAuth();
+  const { logIN, googleLogIn, setLoading, createJWT } = useAuth();
 
   // get From-hook function
   const {
@@ -27,6 +27,7 @@ const SignIn = () => {
     setLoginError("");
     logIN(data.email, data.password)
       .then(() => {
+        createJWT(data.email);
         reset();
         navigate(from, { replace: true });
       })
@@ -42,8 +43,10 @@ const SignIn = () => {
   // Google login handel
   const handelGoogleLogin = () => {
     googleLogIn()
-      .then(() => {
-        navigate(from, { replace: true });
+      .then((result) => {
+        if (result?.user?.uid) {
+          userInfo(result.user.displayName, result.user.email);
+        }
       })
       .catch((error) => {
         const errorMessage = error?.message?.split("/")[1];
@@ -52,6 +55,26 @@ const SignIn = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  // save user info on DB
+  const userInfo = (name, email) => {
+    const userinfo = { name, email };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userinfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          createJWT(email);
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
